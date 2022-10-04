@@ -3,7 +3,8 @@
   <el-container class="layout-container-demo">
     <el-header style="text-align: right; font-size: 12px">
       <div class="logo">
-        <img src="../../assets/人文文字logo.png" alt="" style="width:250px;height:65px">
+        <img src="../../assets/老婆.jpg" alt="" style="width:40px;height:40px;border-radius: 50%;margin-top: 9px;">
+        <span>小野猫</span>
       </div>
       <div class="toolbar">
         <el-dropdown>
@@ -20,17 +21,20 @@
           </template>
         </el-dropdown>
 
-        <span>{{data.list.nickname}}</span>
+        <span>{{store.userlist.nickname}}</span>
       </div>
     </el-header>
     <el-container class="layout-container-demo1">
-      <el-aside width="200px">
-        <el-menu router>
+      <el-aside :width="iscollapse?'60px':'200px'">
+        <div class="toggle" @click="toggle">
+          |||
+        </div>
+        <el-menu router unique-opened :collapse="iscollapse" :collapse-transition="false">
           <el-sub-menu index="1">
             <template #title>
               <el-icon>
                 <IconMenu />
-              </el-icon>首页
+              </el-icon><span>首页</span>
             </template>
             <el-menu-item index="home">首页</el-menu-item>
           </el-sub-menu>
@@ -38,7 +42,7 @@
             <template #title>
               <el-icon>
                 <message />
-              </el-icon>用户管理
+              </el-icon><span>用户管理</span>
             </template>
             <el-menu-item index="2-1">学生管理</el-menu-item>
             <el-menu-item index="2-2">教师管理</el-menu-item>
@@ -47,7 +51,7 @@
             <template #title>
               <el-icon>
                 <IconMenu />
-              </el-icon>个人信息
+              </el-icon><span>个人信息</span>
             </template>
             <el-menu-item index="user">个人信息</el-menu-item>
           </el-sub-menu>
@@ -55,6 +59,11 @@
       </el-aside>
 
       <el-main>
+        <el-breadcrumb :separator-icon="ArrowRight">
+          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>首页</el-breadcrumb-item>
+          <el-breadcrumb-item>首页</el-breadcrumb-item>
+        </el-breadcrumb>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -62,22 +71,21 @@
 </template>
 
 <script setup>
+import { ArrowRight } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
-import { onMounted, reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '../../api/index'
 import { ElMessage } from 'element-plus'
-import { store  } from '../../store/index'
+import { store } from '../../store/index'
 const router = useRouter()
-const data = reactive({
-  list: {}
-})
+
+const iscollapse = ref(false)
 
 onMounted(() => {
   api.user.userinfo_api().then(res => {
     if (res.data.status === 0) {
       ElMessage.success(res.data.message)
-      data.list = res.data.data
       store.userlist = res.data.data
     } else {
       ElMessage.error(res.data.message)
@@ -93,6 +101,11 @@ const tui_chu = () => {
   sessionStorage.clear()
   router.push('login')
 }
+
+const toggle = () => {
+  iscollapse.value = !iscollapse.value
+}
+
 </script>
 
 <style scoped>
@@ -135,7 +148,23 @@ const tui_chu = () => {
 
 .logo {
   float: left;
+}
 
+.logo span {
+  float: right;
+  font-size: 30px;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+
+.toggle {
+  background-color: #d9ecff;
+  font-size: 10px;
+  line-height: 24px;
+  color: #000;
+  text-align: center;
+  letter-spacing: 0.2em;
+  cursor: pointer;
 }
 </style>
 

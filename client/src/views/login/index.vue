@@ -1,14 +1,13 @@
 <template>
   <div>
     <div class="header">
-      <h1>我的测试系统</h1>
+      <h1>小野猫</h1>
     </div>
     <v-form-render :form-json="formJson" :form-data="formData" :option-data="optionData" ref="vFormRef">
     </v-form-render>
     <div class="footer">
       <el-button type="primary" @click="submitForm">登录</el-button>
       <el-button type="primary" @click="zhuce">注册</el-button>
-      <el-button type="warning " @click="chonzhi">重置</el-button>
     </div>
   </div>
 </template>
@@ -49,9 +48,6 @@ const submitForm = () => {
 const zhuce = () => {
   router.push('regUser')
 }
-const chonzhi = () => {
-  vFormRef.value.onFormValidate()
-}
 </script>
 <style scoped>
 .header {
@@ -61,7 +57,7 @@ const chonzhi = () => {
 }
 
 .footer {
-  width: 300px;
+  width: 140px;
   margin: 20px auto;
 }
 </style>

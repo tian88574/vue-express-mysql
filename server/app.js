@@ -7,6 +7,8 @@ const joi = require('joi')
 const config = require('./config')
 // 解析 token 的中间件
 const expressJWT = require('express-jwt')
+// 导入并注册用户路由模块
+const userRouter = require('./router/user')
 // 导入并使用用户信息路由模块
 const userinfoRouter = require('./router/userinfo')
 
@@ -38,8 +40,7 @@ app.use(function (req, res, next) {
 app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api\//] }))
 
 
-// 导入并注册用户路由模块
-const userRouter = require('./router/user')
+
 app.use('/api', userRouter)
 
 // 注意：以 /my 开头的接口，都是有权限的接口，需要进行 Token 身份认证
