@@ -36,7 +36,7 @@ exports.regUser = (req, res) => {
         // 对用户的密码,进行 bcrype 加密，返回值是加密之后的密码字符串
         userinfo.password = bcrypt.hashSync(userinfo.password, 10)
         const sqlstr = 'insert into users set ?'
-        db.query(sqlstr, { username: userinfo.username, password: userinfo.password }, (err, results) => {
+        db.query(sqlstr, { username: userinfo.username, password: userinfo.password,nickname:userinfo.nickname,email:userinfo.email,user_pic:userinfo.user_pic }, (err, results) => {
             if (err) return res.cc(err)
             if (results.affectedRows === 1) {
                 res.cc('注册成功', 0)
@@ -70,7 +70,7 @@ exports.login = (req, res) => {
         // 剔除完毕之后，user 中只保留了用户的 id, username, nickname, email 这四个属性的值
         const user = { ...results[0], password: '', user_pic: '' }
         const tokenStr = jwt.sign(user, config.jwtSecretKey, {
-            expiresIn: '10h', // token 有效期为 10 个小时
+            expiresIn: '1h', // token 有效期为 10 个小时
           })
           res.send({
             status: 0,

@@ -2,7 +2,7 @@
   <router-view/>
 </template>
 
-<style lang="scss">
+<style>
 *{
   margin: 0;
   padding: 0;
