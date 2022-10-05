@@ -36,7 +36,7 @@
                 <IconMenu />
               </el-icon><span>首页</span>
             </template>
-            <el-menu-item index="home">首页</el-menu-item>
+            <el-menu-item index="home">主页</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="2">
             <template #title>
@@ -59,11 +59,7 @@
       </el-aside>
 
       <el-main>
-        <el-breadcrumb :separator-icon="ArrowRight">
-          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>首页</el-breadcrumb-item>
-          <el-breadcrumb-item>首页</el-breadcrumb-item>
-        </el-breadcrumb>
+        <mianbaoxie></mianbaoxie>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -71,7 +67,7 @@
 </template>
 
 <script setup>
-import { ArrowRight } from '@element-plus/icons-vue'
+import mianbaoxie from '../../components/mian_bao_xie/index.vue'
 import { useRouter } from 'vue-router'
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
@@ -89,7 +85,9 @@ onMounted(() => {
       store.userlist = res.data.data
     } else {
       ElMessage.error(res.data.message)
-      router.push('login')
+      if (res.data.message === '身份认证失败！请重新登录') {
+            router.push('login')
+          }
     }
   }).catch(err => {
     ElMessage.error('服务器问题' + err)

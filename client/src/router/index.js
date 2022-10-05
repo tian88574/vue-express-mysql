@@ -5,6 +5,7 @@ const routes = [
   {
     path: '/zhuye',
     redirect: '/home',
+    meta: { title: "首页" },
     // redirect: '/home',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -14,11 +15,13 @@ const routes = [
       {
         path: '/home',
         name: 'home',
+        meta: { title: "主页" },
         component: () => import('../views/zhuye/user/home.vue')
       },
       {
         path: '/user',
         name: 'user',
+        meta: { title: "个人中心" },
         component: () => import('../views/zhuye/userinfo/index.vue')
       }
     ]

@@ -17,11 +17,24 @@ const nickname = joi.string().required()
 const email = joi.string().email().required()
 
 
+// 定义密码的验证规则
+const newpassword = joi.string().pattern(/^[\S]{6,12}$/).required()
+const oldpassword = joi.string().pattern(/^[\S]{6,12}$/).required()
+const newpassword2 = joi.string().pattern(/^[\S]{6,12}$/).required()
+
 // 验证规则对象 - 更新用户基本信息
 exports.update_userinfo_schema = {
     body: {
         user_pic,
       nickname,
       email,
+    },
+  }
+
+  exports.update_password_schema = {
+    body: {
+      oldpassword,
+      newpassword,
+      newpassword2
     },
   }
